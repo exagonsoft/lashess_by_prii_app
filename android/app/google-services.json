@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "302024968063",
+    "project_id": "lashess-by-prii",
+    "storage_bucket": "lashess-by-prii.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302024968063:android:add6978a2820183e5fbc4a",
+        "android_client_info": {
+          "package_name": "com.example.lashess_by_prii_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302024968063-9sqqlsb1m31fubmjto1g0sov32g3f6jh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvdPZYogVCNYDui4nmhs1NF3EFYke1fT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302024968063-9sqqlsb1m31fubmjto1g0sov32g3f6jh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

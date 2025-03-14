@@ -1,0 +1,23 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "lashess-by-prii",
+                    "appId": "1:302024968063:android:add6978a2820183e5fbc4a",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "lashess-by-prii",
+                    "configurations": {
+                        "android": "1:302024968063:android:add6978a2820183e5fbc4a",
+                        "ios": "1:302024968063:ios:405dcf4c8e841dd75fbc4a",
+                        "web": "1:302024968063:web:4dba822d78069e065fbc4a"
+                    }
+                }
+            }
+        }
+    }
+}
