@@ -41,6 +41,13 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        production {
+            dimension "default"
+        }
+    }
 }
 
 flutter {
