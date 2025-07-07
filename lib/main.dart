@@ -7,6 +7,11 @@ import 'views/splash_screen.dart';
 import 'views/auth_screen.dart';
 import 'views/home_screen.dart';
 import 'providers/user_provider.dart';
+import 'controllers/main_controller.dart';
+import 'repositories/events_repository.dart';
+import 'repositories/offers_repository.dart';
+import 'repositories/styles_repository.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,11 +25,18 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(
+          create: (_) => MainController(
+            eventsRepository: EventsRepository(),
+            offersRepository: OffersRepository(),
+            stylesRepository: StylesRepository(),
+          ),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Lashess by Prii',
-        theme:  AppTheme.lightTheme,
+        theme: AppTheme.lightTheme,
         routerConfig: _router,
       ),
     );

@@ -32,6 +32,7 @@ class _AuthScreenState extends State<AuthScreen> {
   void _signInWithGoogle() async {
     try {
       print("Google Sign-In initiated...");
+      setState(() => isLogin = true);
 
       final authService = AuthService();
       final user = await authService.signInWithGoogle();
@@ -45,8 +46,10 @@ class _AuthScreenState extends State<AuthScreen> {
         print("Google Sign-In failed or canceled.");
         _showToast("Google Sign-In was canceled or failed.");
       }
+      setState(() => isLogin = false);
     } catch (e) {
       print("Error during Google Sign-In: $e");
+      setState(() => isLogin = false);
       _showToast("An error occurred during Google Sign-In. Please try again.");
     }
   }

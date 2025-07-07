@@ -41,6 +41,13 @@ android {
             keyAlias System.getenv("CM_KEY_ALIAS") ?: "default_alias"
             keyPassword System.getenv("CM_KEY_PASSWORD") ?: "default_key_password"
         }
+        debug {
+            keyAlias "release"
+            keyPassword "SabriSamymartin11*"
+            storeFile file('release-key.jks')
+            storePassword "SabriSamymartin11*"
+        }
+
     }
 
     buildTypes {
@@ -49,15 +56,26 @@ android {
             minifyEnabled true
             shrinkResources true
         }
-    }
-
-    flavorDimensions "default"
-    productFlavors {
-        production {
-            dimension "default"
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
+
+    // flavorDimensions "default"
+    // productFlavors {
+    //     production {
+    //         dimension "default"
+    //     }
+    // }
 }
+
+dependencies {
+    implementation platform("org.jetbrains.kotlin:kotlin-bom:1.8.0")
+
+    // Example: If you also use coroutines
+    // implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
+}
+
 
 flutter {
     source = "../.."
