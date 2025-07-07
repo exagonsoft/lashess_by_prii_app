@@ -61,12 +61,12 @@ android {
         }
     }
 
-    // flavorDimensions "default"
-    // productFlavors {
-    //     production {
-    //         dimension "default"
-    //     }
-    // }
+    flavorDimensions "default"
+    productFlavors {
+        production {
+            dimension "default"
+        }
+    }
 }
 
 dependencies {
