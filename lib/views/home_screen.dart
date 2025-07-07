@@ -11,6 +11,10 @@ import 'main_screen.dart';
 import 'business_info_screen.dart';
 import 'map_screen.dart';
 import 'settings_screen.dart';
+import '../controllers/main_controller.dart';
+import '../repositories/events_repository.dart';
+import '../repositories/offers_repository.dart';
+import '../repositories/styles_repository.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,11 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Screens for navigation
   final List<Widget> _screens = [
-    MainScreen(),
-    BookingScreen(),
-    BusinessInfoScreen(),
-    MapScreen(),
-    SettingsScreen(),
+    const MainScreen(),
+    const BookingScreen(),
+    const BusinessInfoScreen(),
+    const MapScreen(),
+    const SettingsScreen(),
   ];
 
   @override
@@ -53,7 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: CircleAvatar(
               backgroundImage: user?.photoURL != null
                   ? NetworkImage(user!.photoURL!)
-                  : AssetImage("assets/default_user.png") as ImageProvider,
+                  : AssetImage("assets/images/default_user.png")
+                      as ImageProvider,
             ),
             offset: Offset(0, 50),
             shape: RoundedRectangleBorder(
