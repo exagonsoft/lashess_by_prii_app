@@ -17,9 +17,13 @@ class FeaturedStyleCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: InteractiveViewer(
+            panEnabled: true,
+            scaleEnabled: true,
+            minScale: 0.5,
+            alignment: Alignment.center,
             child: Image.network(
               imageUrl,
-              fit: BoxFit.contain,
+              fit: BoxFit.fill,
               errorBuilder: (ctx, err, _) => Container(
                 height: 300,
                 color: Colors.grey.shade200,
