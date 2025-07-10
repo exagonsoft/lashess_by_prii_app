@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lashess_by_prii_app/l10n/app_localizations.dart';
 import 'package:lashess_by_prii_app/providers/theme_mode_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';

@@ -31,43 +31,41 @@ class AuthService {
   // Google Sign-In
   Future<User?> signInWithGoogle() async {
     try {
-      print("Starting Google Sign-In...");
+      final GoogleSignIn signIn = GoogleSignIn.instance;
 
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) {
-        print("Google Sign-In was canceled by the user.");
-        return null;
-      }
+      await signIn.initialize(); // optional with clientId/serverClientId
 
-      print("Google User: ${googleUser.displayName}");
+      await signIn.authenticate();
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+      // Receive the sign-in event
+      GoogleSignInAccount? signedUser;
+      await signIn.authenticationEvents
+          .firstWhere(
+        (event) => event is GoogleSignInAuthenticationEventSignIn,
+      )
+          .then((event) {
+        signedUser = (event as GoogleSignInAuthenticationEventSignIn).user;
+      });
+
+      if (signedUser == null) return null;
+
+      final googleAuth = await signedUser?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth?.idToken,
       );
 
-      UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
-      User? user = userCredential.user;
-
-      if (user != null) {
-        print("Google Sign-In successful! User: ${user.displayName}");
-      } else {
-        print("Google Sign-In failed: User is null.");
-      }
-
-      return user;
+      final userCred =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      return userCred.user;
     } catch (e) {
-      print("Error during Google Sign-In: $e");
-      return null; // Return null so that we can show an error dialog in the UI
+      print("Google Sign-In failed: $e");
+      return null;
     }
   }
 
-  // Logout
   Future<void> signOut() async {
+    await GoogleSignIn.instance.disconnect();
     await _auth.signOut();
-    await GoogleSignIn().signOut();
   }
 }

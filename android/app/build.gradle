@@ -16,6 +16,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
@@ -71,7 +72,7 @@ android {
 
 dependencies {
     implementation platform("org.jetbrains.kotlin:kotlin-bom:1.8.0")
-
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
     // Example: If you also use coroutines
     // implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
 }
