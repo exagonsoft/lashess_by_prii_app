@@ -17,9 +17,9 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(Duration(seconds: 2), () {
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
-        context.go('/auth');  // Navigate to Login if not authenticated
+        context.go('/auth'); // Navigate to Login if not authenticated
       } else {
-        context.go('/home');  // Navigate to Home if logged in
+        context.go('/home'); // Navigate to Home if logged in
       }
     });
   }
@@ -29,13 +29,21 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.pink.shade100,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            Image.asset('assets/images/icon.png',
-                width: 100), // Ensure this exists
-            SizedBox(height: 20),
-            CircularProgressIndicator(color: Colors.pink),
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: CircularProgressIndicator(
+                strokeWidth: 4,
+                valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 252, 99, 150)),
+              ),
+            ),
+            Image.asset(
+              'assets/images/icon.png',
+              width: 60, // smaller than the progress indicator
+            ),
           ],
         ),
       ),

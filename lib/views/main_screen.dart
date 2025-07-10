@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lashess_by_prii_app/widgets/featured_look_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/main_controller.dart';
 import '../../widgets/trending_card.dart';
@@ -31,87 +32,90 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<MainController>(context);
+    final ThemeData theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Bienvenida')),
       body: controller.isLoading
           ? const Center(child: CircularProgressIndicator())
           : RefreshIndicator(
               onRefresh: _onRefresh,
-              child: ListView(
-                padding: const EdgeInsets.all(12),
-                children: [
-                  if (controller.styles.isNotEmpty) ...[
-                    const SectionHeader(title: "🔥 Trending Styles"),
+              child: Container(
+                color: theme.scaffoldBackgroundColor,
+                child: ListView(
+                  padding: const EdgeInsets.all(12),
+                  children: [
+                    if (controller.styles.isNotEmpty) ...[
+                      SectionHeader(title: AppLocalizations.of(context)!.trendingStyles),
+                      SizedBox(
+                        height: 250,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.styles.length,
+                          itemBuilder: (context, index) {
+                            final style = controller.styles[index];
+                            return TrendingCard(
+                              title: style.name,
+                              imageUrl: style.imageUrl,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                    if (controller.events.isNotEmpty) ...[
+                      SectionHeader(title: AppLocalizations.of(context)!.upcomingEvents),
+                      for (var event in controller.events)
+                        EventCard(
+                          title: event.title,
+                          date: event.date.toLocal().toString().split(" ")[0],
+                          imageUrl: event.imageUrl,
+                          url: event.url,
+                        ),
+                    ],
+                    if (controller.offers.isNotEmpty) ...[
+                      SectionHeader(title: AppLocalizations.of(context)!.specialOffers),
+                      SizedBox(
+                        height: 250,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.offers.length,
+                          itemBuilder: (context, index) {
+                            final offer = controller.offers[index];
+                            return OfferCard(
+                              title: offer.title,
+                              subtitle: offer.subtitle,
+                              imageUrl: offer.imageUrl,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                    SectionHeader(title: AppLocalizations.of(context)!.featuredLooks),
                     SizedBox(
-                      height: 250,
+                      height: 200,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: controller.styles.length,
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        itemCount: controller.styles.take(3).length,
                         itemBuilder: (context, index) {
                           final style = controller.styles[index];
-                          return TrendingCard(
-                            title: style.name,
-                            imageUrl: style.imageUrl,
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: FeaturedStyleCard(
+                              imageUrl: style.imageUrl,
+                            ),
                           );
                         },
                       ),
                     ),
-                  ],
-                  if (controller.events.isNotEmpty) ...[
-                    const SectionHeader(title: "🎉 Upcoming Events"),
-                    for (var event in controller.events)
-                      EventCard(
-                        title: event.title,
-                        date: event.date.toLocal().toString().split(" ")[0],
-                        imageUrl: event.imageUrl,
-                        url: event.url,
-                      ),
-                  ],
-                  if (controller.offers.isNotEmpty) ...[
-                    const SectionHeader(title: "💰 Special Offers"),
-                    SizedBox(
-                      height: 250,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: controller.offers.length,
-                        itemBuilder: (context, index) {
-                          final offer = controller.offers[index];
-                          return OfferCard(
-                            title: offer.title,
-                            subtitle: offer.subtitle,
-                            imageUrl: offer.imageUrl,
-                          );
-                        },
+                    CallToActionCard(
+                      text: AppLocalizations.of(context)!.bookNow,
+                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('¡Pantalla de reservas disponible pronto!')),
                       ),
                     ),
                   ],
-                  const SectionHeader(title: "💅 Featured Looks"),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      itemCount: controller.styles.take(3).length,
-                      itemBuilder: (context, index) {
-                        final style = controller.styles[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 12),
-                          child: FeaturedStyleCard(
-                            imageUrl: style.imageUrl,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  CallToActionCard(
-                    text: '📅 Book your appointment now!',
-                    onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Booking screen coming soon!')),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
     );

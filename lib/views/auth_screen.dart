@@ -1,14 +1,16 @@
-// ignore_for_file: unused_import, avoid_print, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
-import 'package:go_router/go_router.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import '../providers/locale_provider.dart';
 
 class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
+
   @override
-  _AuthScreenState createState() => _AuthScreenState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
 class _AuthScreenState extends State<AuthScreen> {
@@ -18,167 +20,163 @@ class _AuthScreenState extends State<AuthScreen> {
 
   void _authenticate() async {
     final authService = AuthService();
-    if (isLogin) {
-      final user = await authService.signInWithEmail(
-          _emailController.text, _passwordController.text);
-      if (user != null) context.go('/home');
-    } else {
-      final user = await authService.registerWithEmail(
-          _emailController.text, _passwordController.text);
-      if (user != null) context.go('/home');
-    }
+    final user = isLogin
+        ? await authService.signInWithEmail(
+            _emailController.text, _passwordController.text)
+        : await authService.registerWithEmail(
+            _emailController.text, _passwordController.text);
+    if (user != null) context.go('/home');
   }
 
   void _signInWithGoogle() async {
     try {
-      print("Google Sign-In initiated...");
       setState(() => isLogin = true);
-
       final authService = AuthService();
       final user = await authService.signInWithGoogle();
 
       if (user != null) {
-        print("Google Sign-In successful! User: ${user.displayName}");
-        if (mounted) {
-          context.go('/home');
-        }
+        context.go('/home');
       } else {
-        print("Google Sign-In failed or canceled.");
-        _showToast("Google Sign-In was canceled or failed.");
+        _showToast(AppLocalizations.of(context)!.googleSignInCancelled);
       }
       setState(() => isLogin = false);
     } catch (e) {
-      print("Error during Google Sign-In: $e");
       setState(() => isLogin = false);
-      _showToast("An error occurred during Google Sign-In. Please try again.");
+      _showToast(AppLocalizations.of(context)!.googleSignInError);
     }
   }
 
-// Show Toast Message
   void _showToast(String message) {
     Fluttertoast.showToast(
       msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM, // Show at the bottom
       backgroundColor: Colors.black54,
       textColor: Colors.white,
-      fontSize: 16.0,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double padding = screenWidth * 0.07; // Responsive horizontal padding
+    final theme = Theme.of(context);
+    final t = AppLocalizations.of(context)!;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final padding = screenWidth * 0.07;
 
     return Scaffold(
-      backgroundColor: Colors.pink.shade50,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: padding),
-            child: Column(
-              children: [
-                SizedBox(height: screenHeight * 0.2), // Dynamic top spacing
-
-                // Title Text
-                Text(
-                  isLogin ? "Bienvenido!" : "Crear Cuenta",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.07, // Responsive font size
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: padding),
+          child: Column(
+            children: [
+              SizedBox(height: screenHeight * 0.15),
+              Text(
+                isLogin ? t.welcome : t.createAccount,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.displayLarge?.copyWith(
+                  fontSize: screenWidth * 0.07,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                t.authSubtitle,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyMedium,
+              ),
+              SizedBox(height: screenHeight * 0.04),
+              _buildTextField(
+                label: t.email,
+                icon: Icons.email,
+                controller: _emailController,
+              ),
+              const SizedBox(height: 16),
+              _buildTextField(
+                label: t.password,
+                icon: Icons.lock,
+                controller: _passwordController,
+                obscureText: true,
+              ),
+              const SizedBox(height: 24),
+              _buildMainButton(
+                text: isLogin ? t.login : t.register,
+                onPressed: _authenticate,
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () => setState(() => isLogin = !isLogin),
+                child: Text(
+                  isLogin ? t.createAccount : t.alreadyHaveAccount,
+                  style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: Colors.pink.shade700,
+                    color: theme.primaryColor,
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.015),
-
-                // Subtitle
-                Text(
-                  "¡Únete a nosotras para la mejor experiencia de belleza!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.04, // Responsive font size
-                    color: Colors.grey.shade700,
-                  ),
-                ),
-                SizedBox(height: screenHeight * 0.04),
-
-                // Email Input
-                _buildTextField("Email", Icons.email, _emailController),
-                SizedBox(height: screenHeight * 0.02),
-
-                // Password Input
-                _buildTextField("Contraseña", Icons.lock, _passwordController,
-                    obscureText: true),
-                SizedBox(height: screenHeight * 0.03),
-
-                // Login/Register Button
-                _buildMainButton(isLogin ? "Acceso" : "Registro", _authenticate),
-                SizedBox(height: screenHeight * 0.01),
-
-                // Toggle between Login/Register
-                TextButton(
-                  onPressed: () {
-                    setState(() => isLogin = !isLogin);
-                  },
-                  child: Text(
-                    isLogin
-                        ? "Crear Cuenta"
-                        : "¿Ya tienes una cuenta? Iniciar sesión",
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.04, // Responsive font size
-                      color: Colors.pink.shade700,
-                      fontWeight: FontWeight.bold,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: Row(
+                  children: [
+                    const Expanded(child: Divider(thickness: 1)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(t.or, style: theme.textTheme.bodyMedium),
                     ),
-                  ),
+                    const Expanded(child: Divider(thickness: 1)),
+                  ],
                 ),
-
-                // Divider
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Divider(
-                              thickness: 1, color: Colors.grey.shade400)),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text("OR",
-                            style: TextStyle(color: Colors.grey.shade600)),
-                      ),
-                      Expanded(
-                          child: Divider(
-                              thickness: 1, color: Colors.grey.shade400)),
-                    ],
-                  ),
+              ),
+              _buildMainButton(
+                text: t.loginWithGoogle,
+                onPressed: _signInWithGoogle,
+                icon: Icons.login,
+                color: Colors.red.shade600,
+              ),
+              SizedBox(height: screenHeight * 0.05),
+              DropdownButton<Locale>(
+                value:
+                    context.read<LocaleProvider>().locale ?? const Locale('es'),
+                onChanged: (locale) {
+                  if (locale != null) {
+                    context.read<LocaleProvider>().setLocale(locale);
+                  }
+                },
+                dropdownColor: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(12),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(height: screenHeight * 0.015),
-
-                // Google Sign-In Button
-                _buildMainButton("Iniciar sesión con Google", _signInWithGoogle,
-                    color: Colors.red.shade600),
-                SizedBox(height: screenHeight * 0.05),
-              ],
-            ),
+                items: const [
+                  DropdownMenuItem(
+                    value: Locale('es'),
+                    child: Text("Español"),
+                  ),
+                  DropdownMenuItem(
+                    value: Locale('en'),
+                    child: Text("English"),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTextField(
-      String label, IconData icon, TextEditingController controller,
-      {bool obscureText = false}) {
+  Widget _buildTextField({
+    required String label,
+    required IconData icon,
+    required TextEditingController controller,
+    bool obscureText = false,
+  }) {
     return TextField(
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: Icon(icon, color: Colors.pink.shade400),
+        prefixIcon: Icon(icon, color: Theme.of(context).primaryColor),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Theme.of(context).cardColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -187,43 +185,46 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  Widget _buildMainButton(String text, VoidCallback onPressed,
-      {IconData? icon, Color? color, double? width}) {
-    return icon != null
-        ? ElevatedButton.icon(
-            onPressed: onPressed,
-            icon: Icon(icon, color: Colors.white),
-            label: Text(
-              text,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            style: ElevatedButton.styleFrom(
-              padding:
-                  EdgeInsets.symmetric(vertical: 14, horizontal: width ?? 20),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              backgroundColor: color ?? Colors.pink.shade600,
-              elevation: 5,
-            ),
-          )
-        : ElevatedButton(
-            onPressed: onPressed,
-            style: ElevatedButton.styleFrom(
-              padding:
-                  EdgeInsets.symmetric(vertical: 14, horizontal: width ?? 20),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              backgroundColor: color ?? Colors.pink.shade600,
-              elevation: 5,
-            ),
-            child: Center(
-              // Ensures label is always centered
+  Widget _buildMainButton({
+    required String text,
+    required VoidCallback onPressed,
+    IconData? icon,
+    Color? color,
+  }) {
+    return SizedBox(
+      width: double.infinity,
+      child: icon != null
+          ? ElevatedButton.icon(
+              onPressed: onPressed,
+              icon: Icon(icon, color: Colors.white),
+              label: Text(
+                text,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: color ?? Theme.of(context).primaryColor,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            )
+          : ElevatedButton(
+              onPressed: onPressed,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: color ?? Theme.of(context).primaryColor,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
               child: Text(
                 text,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
-          );
+    );
   }
 }
