@@ -1,9 +1,7 @@
-// ignore_for_file: unused_import, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/user_provider.dart';
 import '../services/auth_service.dart';
 import 'booking_screen.dart';
@@ -11,10 +9,6 @@ import 'main_screen.dart';
 import 'business_info_screen.dart';
 import 'map_screen.dart';
 import 'settings_screen.dart';
-import '../controllers/main_controller.dart';
-import '../repositories/events_repository.dart';
-import '../repositories/offers_repository.dart';
-import '../repositories/styles_repository.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,19 +20,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  // Screens for navigation
-  final List<Widget> _screens = [
-    const MainScreen(),
-    const BookingScreen(),
-    const BusinessInfoScreen(),
-    const MapScreen(),
-    const SettingsScreen(),
+  final List<Widget> _screens = const [
+    MainScreen(),
+    BookingScreen(),
+    BusinessInfoScreen(),
+    MapScreen(),
+    SettingsScreen(),
   ];
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
+    Future.microtask(() {
       Provider.of<UserProvider>(context, listen: false).loadUser();
     });
   }
@@ -46,84 +39,75 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
+    final t = AppLocalizations.of(context)!;
+    final ThemeData theme = Theme.of(context); // ✅ Use resolved ThemeData
 
     return Scaffold(
-      backgroundColor: Colors.pink.shade100,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Text("Lashess by Prii"),
+        backgroundColor: theme.appBarTheme.backgroundColor,
+        elevation: 0,
+        title: Text(
+          t.appTitle,
+          style: theme.appBarTheme.titleTextStyle ??
+              TextStyle(
+                color: theme.textTheme.bodyLarge?.color,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+        ),
         actions: [
           PopupMenuButton<String>(
             icon: CircleAvatar(
               backgroundImage: user?.photoURL != null
                   ? NetworkImage(user!.photoURL!)
-                  : AssetImage("assets/images/default_user.png")
+                  : const AssetImage("assets/images/default_user.png")
                       as ImageProvider,
             ),
-            offset: Offset(0, 50),
+            offset: const Offset(0, 50),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
             onSelected: (value) {
-              if (value == "logout") {
-                _logout(context);
-              }
+              if (value == "logout") _logout(context);
             },
-            itemBuilder: (BuildContext context) => [
+            itemBuilder: (context) => [
               PopupMenuItem(
                 value: "profile",
                 child: ListTile(
-                  leading: Icon(Icons.account_box, color: Colors.red),
-                  title: Text("Profile"),
+                  leading:
+                      Icon(Icons.account_box, color: theme.iconTheme.color),
+                  title: Text(t.profile),
                 ),
               ),
               PopupMenuItem(
                 value: "logout",
                 child: ListTile(
-                  leading: Icon(Icons.exit_to_app, color: Colors.red),
-                  title: Text("Logout"),
+                  leading:
+                      Icon(Icons.exit_to_app, color: theme.iconTheme.color),
+                  title: Text(t.logout),
                 ),
               ),
             ],
           ),
         ],
       ),
-      body: _screens[_selectedIndex], // Show selected screen
-
-      // Bottom Navigation Bar
+      body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+        onTap: (index) => setState(() => _selectedIndex = index),
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.pink.shade600,
-        unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
+        selectedLabelStyle:
+            const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
         items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: t.home),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: "Home",
-          ),
+              icon: Icon(Icons.calendar_today), label: t.schedule),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: t.info),
+          BottomNavigationBarItem(icon: Icon(Icons.map), label: t.map),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: "Schedule",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: "Info",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: "Map",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
-          ),
+              icon: Icon(Icons.settings), label: t.settings),
         ],
       ),
     );
@@ -131,6 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _logout(BuildContext context) async {
     await AuthService().signOut();
-    context.go('/auth'); // Redirect to Login
+    context.go('/auth');
   }
 }

@@ -39,6 +39,12 @@ class TrendingStyleDetailModal extends StatelessWidget {
                 },
                 icon: const Icon(Icons.check_circle),
                 label: const Text("Got it"),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                ),
               )
             ],
           ),

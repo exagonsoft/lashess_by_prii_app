@@ -35,9 +35,18 @@ class OfferDetailModal extends StatelessWidget {
               Text("Take advantage of this offer while it lasts!",
                   style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text("Claim Now"),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.check_circle),
+                label: const Text("Got it"),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                ),
               ),
             ],
           ),
