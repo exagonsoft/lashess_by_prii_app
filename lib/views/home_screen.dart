@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lashess_by_prii_app/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/user_provider.dart';
 import '../services/auth_service.dart';
 import 'booking_screen.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lashess_by_prii_app/widgets/featured_look_card.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lashess_by_prii_app/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/main_controller.dart';
 import '../../widgets/trending_card.dart';

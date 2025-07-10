@@ -21,13 +21,22 @@ class EventCard extends StatelessWidget {
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not open event URL.')),
+        SnackBar(
+          content: Text(
+            'Could not open event URL.',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: () => _launchURL(context),
       child: Container(
@@ -35,18 +44,19 @@ class EventCard extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: const Color.fromARGB(10, 2, 2, 2),
-              blurRadius: 0,
-              offset: const Offset(2, 8), // changes position of shadow
+              color: isDark ? Colors.black26 : Colors.grey.withOpacity(0.1),
+              blurRadius: 6,
+              offset: const Offset(2, 4),
             ),
           ],
           borderRadius: BorderRadius.circular(20),
         ),
         child: Card(
+          color: theme.cardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          elevation: 4,
+          elevation: 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -62,21 +72,28 @@ class EventCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   loadingBuilder: (context, child, progress) {
                     if (progress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: progress.expectedTotalBytes != null
-                            ? progress.cumulativeBytesLoaded /
-                                (progress.expectedTotalBytes ?? 1)
-                            : null,
+                    return SizedBox(
+                      height: 160,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: progress.expectedTotalBytes != null
+                              ? progress.cumulativeBytesLoaded /
+                                  (progress.expectedTotalBytes ?? 1)
+                              : null,
+                          color: theme.primaryColor,
+                        ),
                       ),
                     );
                   },
                   errorBuilder: (_, __, ___) => Container(
                     height: 160,
                     width: double.infinity,
-                    color: Colors.grey[200],
-                    child:
-                        const Icon(Icons.image, size: 40, color: Colors.grey),
+                    color: theme.cardColor,
+                    child: Icon(
+                      Icons.broken_image,
+                      size: 40,
+                      color: theme.iconTheme.color?.withOpacity(0.5),
+                    ),
                   ),
                 ),
               ),
@@ -84,7 +101,7 @@ class EventCard extends StatelessWidget {
                 padding: const EdgeInsets.all(12),
                 child: Row(
                   children: [
-                    Icon(Icons.event, size: 20, color: Colors.pink.shade300),
+                    Icon(Icons.event, size: 20, color: theme.primaryColor),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Column(
@@ -92,24 +109,26 @@ class EventCard extends StatelessWidget {
                         children: [
                           Text(
                             title,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(fontWeight: FontWeight.bold),
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             date,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey.shade600,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.textTheme.bodySmall?.color
+                                  ?.withOpacity(0.7),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const Icon(Icons.chevron_right,
-                        size: 20, color: Colors.grey),
+                    Icon(
+                      Icons.chevron_right,
+                      size: 20,
+                      color: theme.iconTheme.color?.withOpacity(0.6),
+                    ),
                   ],
                 ),
               )
