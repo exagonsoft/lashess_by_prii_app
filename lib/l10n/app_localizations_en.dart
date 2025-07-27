@@ -78,6 +78,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alreadyHaveAccount => 'Already have an account? Log in';
 
   @override
+  String get authError => 'Error during authentication';
+
+  @override
   String get or => 'OR';
 
   @override
@@ -106,4 +109,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeDark => 'Dark';
+
+  @override
+  String get forgotPassword => 'Forgot Password?';
+
+  @override
+  String get resetPasswordInstruction => 'Enter your email and we\'ll send you a link to reset your password.';
+
+  @override
+  String get sendResetLink => 'Send Reset Link';
+
+  @override
+  String get passwordResetSent => 'Password reset email sent!';
+
+  @override
+  String get resetPasswordError => 'Failed to send reset email';
+
+  @override
+  String get emailRequired => 'Please enter your email address.';
 }

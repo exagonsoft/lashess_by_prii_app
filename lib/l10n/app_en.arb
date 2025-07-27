@@ -23,6 +23,7 @@
   "login": "Login",
   "register": "Register",
   "alreadyHaveAccount": "Already have an account? Log in",
+  "authError": "Error during authentication",
   "or": "OR",
   "loginWithGoogle": "Sign in with Google",
   "authSubtitle": "Join us for the best beauty experience.",
@@ -32,5 +33,11 @@
   "themeMode": "Theme mode",
   "themeSystem": "System",
   "themeLight": "Light",
-  "themeDark": "Dark"
+  "themeDark": "Dark",
+  "forgotPassword": "Forgot Password?",
+  "resetPasswordInstruction": "Enter your email and we'll send you a link to reset your password.",
+  "sendResetLink": "Send Reset Link",
+  "passwordResetSent": "Password reset email sent!",
+  "resetPasswordError": "Failed to send reset email",
+  "emailRequired": "Please enter your email address."
 }

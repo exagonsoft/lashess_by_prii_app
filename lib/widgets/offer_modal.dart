@@ -15,6 +15,8 @@ class OfferDetailModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return DraggableScrollableSheet(
       expand: false,
       builder: (_, controller) => SingleChildScrollView(
@@ -23,9 +25,9 @@ class OfferDetailModal extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              Text(title, style: Theme.of(context).textTheme.headlineSmall),
+              Text(title, style: theme.textTheme.bodyLarge),
               const SizedBox(height: 8),
-              Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
+              Text(subtitle, style: theme.textTheme.bodyMedium),
               const SizedBox(height: 16),
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
@@ -33,19 +35,26 @@ class OfferDetailModal extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text("Take advantage of this offer while it lasts!",
-                  style: Theme.of(context).textTheme.bodyMedium),
+                  style: theme.textTheme.bodyMedium),
               const SizedBox(height: 16),
               ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(Icons.check_circle),
-                label: const Text("Got it"),
+                onPressed: () => Navigator.of(context).pop(),
+                icon: Icon(
+                  Icons.check_circle,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+                label: Text(
+                  "Entendido",
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                ),
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
               ),
             ],

@@ -233,6 +233,12 @@ abstract class AppLocalizations {
   /// **'Already have an account? Log in'**
   String get alreadyHaveAccount;
 
+  /// No description provided for @authError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error during authentication'**
+  String get authError;
+
   /// No description provided for @or.
   ///
   /// In en, this message translates to:
@@ -292,6 +298,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeDark;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPassword;
+
+  /// No description provided for @resetPasswordInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email and we\'ll send you a link to reset your password.'**
+  String get resetPasswordInstruction;
+
+  /// No description provided for @sendResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Reset Link'**
+  String get sendResetLink;
+
+  /// No description provided for @passwordResetSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset email sent!'**
+  String get passwordResetSent;
+
+  /// No description provided for @resetPasswordError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send reset email'**
+  String get resetPasswordError;
+
+  /// No description provided for @emailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email address.'**
+  String get emailRequired;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
