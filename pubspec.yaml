@@ -81,6 +81,12 @@ flutter:
   assets:
    - assets/images/icon.png
    - assets/images/default_user.png
+   - assets/images/salon_banner.jpg
+   - assets/images/classic1.jpg
+   - assets/images/russian1.jpg
+   - assets/images/retouch1.jpg
+   - assets/images/laminado1.jpg
+   - assets/images/lifting1.jpg
    - assets/icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

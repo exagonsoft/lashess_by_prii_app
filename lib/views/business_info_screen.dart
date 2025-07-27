@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lashess_by_prii_app/constants/api_config.dart';
+import 'package:lashess_by_prii_app/interfaces/interfaces.dart';
 
 class BusinessInfoScreen extends StatelessWidget {
   const BusinessInfoScreen({super.key});
@@ -21,7 +23,8 @@ class BusinessInfoScreen extends StatelessWidget {
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/salon_banner.jpg'), // Tu imagen
+                      image: AssetImage(
+                          'assets/images/salon_banner.jpg'), // Tu imagen
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -31,7 +34,10 @@ class BusinessInfoScreen extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Colors.black.withOpacity(0.6), Colors.transparent],
+                      colors: [
+                        Colors.black.withOpacity(0.6),
+                        Colors.transparent
+                      ],
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                     ),
@@ -45,7 +51,9 @@ class BusinessInfoScreen extends StatelessWidget {
                     style: theme.textTheme.headlineMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      shadows: const [Shadow(blurRadius: 8, color: Colors.black)],
+                      shadows: const [
+                        Shadow(blurRadius: 8, color: Colors.black)
+                      ],
                     ),
                   ),
                 ),
@@ -60,11 +68,8 @@ class BusinessInfoScreen extends StatelessWidget {
                 children: [
                   _buildSectionHeader("💅 Servicios & Precios"),
                   const SizedBox(height: 12),
-                  _buildFancyCard("Extensiones Clásicas", "U\$S 30"),
-                  _buildFancyCard("Volumen Ruso", "U\$S 45"),
-                  _buildFancyCard("Retoque (15 días)", "U\$S 20"),
-                  _buildFancyCard("Laminado de Pestañas", "U\$S 25"),
-                  _buildFancyCard("Lifting + Tinte", "U\$S 35"),
+                  for (final service in services)
+                    _buildExpandableServiceCard(service),
                 ],
               ),
             ),
@@ -115,7 +120,7 @@ class BusinessInfoScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFancyCard(String title, String price) {
+  Widget _buildExpandableServiceCard(ServiceInfo service) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
@@ -129,12 +134,38 @@ class BusinessInfoScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: ListTile(
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+      child: ExpansionTile(
+        tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+        title: Text(service.name,
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         trailing: Text(
-          price,
+          service.price,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
+        childrenPadding: const EdgeInsets.all(16),
+        children: [
+          Text(service.description, style: const TextStyle(fontSize: 14)),
+          const SizedBox(height: 12),
+          SizedBox(
+            height: 100,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: service.imagePaths.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              itemBuilder: (context, index) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    service.imagePaths[index],
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -157,7 +188,8 @@ class BusinessInfoScreen extends StatelessWidget {
           backgroundColor: color.withOpacity(0.2),
           child: Icon(icon, color: color),
         ),
-        title: Text(label, style: TextStyle(color: color, fontWeight: FontWeight.bold)),
+        title: Text(label,
+            style: TextStyle(color: color, fontWeight: FontWeight.bold)),
         subtitle: Text(value),
         onTap: () {
           // TODO: Abrir link o acción
