@@ -19,30 +19,53 @@ class _AuthScreenState extends State<AuthScreen> {
   bool isLogin = true;
 
   void _authenticate() async {
-    final authService = AuthService();
-    final user = isLogin
-        ? await authService.signInWithEmail(
-            _emailController.text, _passwordController.text)
-        : await authService.registerWithEmail(
-            _emailController.text, _passwordController.text);
-    if (user != null) context.go('/home');
+    if (isLoading) return;
+    setState(() => isLoading = true);
+    try {
+      final authService = AuthService();
+      final user = isLogin
+          ? await authService.signInWithEmail(
+              _emailController.text, _passwordController.text)
+          : await authService.registerWithEmail(
+              _emailController.text, _passwordController.text);
+      if (!mounted) return;
+      if (user != null) {
+        context.go('/home');
+      } else {
+        _showToast("❌ ${AppLocalizations.of(context)!.authError}");
+      }
+    } catch (e) {
+      debugPrint("❌ Auth error: $e");
+      _showToast("❌ ${AppLocalizations.of(context)!.authError}");
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
   }
 
+  bool isLoading = false;
+
   void _signInWithGoogle() async {
+    if (isLoading) return;
+
+    setState(() => isLoading = true);
     try {
-      setState(() => isLogin = true);
+      debugPrint("📲 Invoking AuthService.signInWithGoogle()");
       final authService = AuthService();
       final user = await authService.signInWithGoogle();
-
+      debugPrint("✅ Signed in user: ${user?.email}");
       if (user != null) {
+        debugPrint("✅ Signed in user: ${user.email}");
+        if (!mounted) return;
         context.go('/home');
       } else {
         _showToast(AppLocalizations.of(context)!.googleSignInCancelled);
       }
-      setState(() => isLogin = false);
     } catch (e) {
-      setState(() => isLogin = false);
+      debugPrint("❌ Google Sign-In error: $e");
+      setState(() => isLoading = false);
       _showToast(AppLocalizations.of(context)!.googleSignInError);
+    } finally {
+      if (mounted) setState(() => isLoading = false);
     }
   }
 
@@ -64,101 +87,120 @@ class _AuthScreenState extends State<AuthScreen> {
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: padding),
-          child: Column(
-            children: [
-              SizedBox(height: screenHeight * 0.15),
-              Text(
-                isLogin ? t.welcome : t.createAccount,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.displayLarge?.copyWith(
-                  fontSize: screenWidth * 0.07,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                t.authSubtitle,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium,
-              ),
-              SizedBox(height: screenHeight * 0.04),
-              _buildTextField(
-                label: t.email,
-                icon: Icons.email,
-                controller: _emailController,
-              ),
-              const SizedBox(height: 16),
-              _buildTextField(
-                label: t.password,
-                icon: Icons.lock,
-                controller: _passwordController,
-                obscureText: true,
-              ),
-              const SizedBox(height: 24),
-              _buildMainButton(
-                text: isLogin ? t.login : t.register,
-                onPressed: _authenticate,
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: () => setState(() => isLogin = !isLogin),
-                child: Text(
-                  isLogin ? t.createAccount : t.alreadyHaveAccount,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.primaryColor,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24),
-                child: Row(
-                  children: [
-                    const Expanded(child: Divider(thickness: 1)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(t.or, style: theme.textTheme.bodyMedium),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: padding),
+              child: Column(
+                children: [
+                  SizedBox(height: screenHeight * 0.15),
+                  Text(
+                    isLogin ? t.welcome : t.createAccount,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.displayLarge?.copyWith(
+                      fontSize: screenWidth * 0.07,
                     ),
-                    const Expanded(child: Divider(thickness: 1)),
-                  ],
-                ),
-              ),
-              _buildMainButton(
-                text: t.loginWithGoogle,
-                onPressed: _signInWithGoogle,
-                icon: Icons.login,
-                color: Colors.red.shade600,
-              ),
-              SizedBox(height: screenHeight * 0.05),
-              DropdownButton<Locale>(
-                value:
-                    context.read<LocaleProvider>().locale ?? const Locale('es'),
-                onChanged: (locale) {
-                  if (locale != null) {
-                    context.read<LocaleProvider>().setLocale(locale);
-                  }
-                },
-                dropdownColor: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(12),
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                items: const [
-                  DropdownMenuItem(
-                    value: Locale('es'),
-                    child: Text("Español"),
                   ),
-                  DropdownMenuItem(
-                    value: Locale('en'),
-                    child: Text("English"),
+                  const SizedBox(height: 8),
+                  Text(
+                    t.authSubtitle,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                  SizedBox(height: screenHeight * 0.04),
+                  _buildTextField(
+                    label: t.email,
+                    icon: Icons.email,
+                    controller: _emailController,
+                  ),
+                  const SizedBox(height: 16),
+                  _buildTextField(
+                    label: t.password,
+                    icon: Icons.lock,
+                    controller: _passwordController,
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 24),
+                  _buildMainButton(
+                    text: isLogin ? t.login : t.register,
+                    onPressed: () {
+                      if (!isLoading) _authenticate();
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: isLoading
+                        ? null
+                        : () => setState(() => isLogin = !isLogin),
+                    child: Text(
+                      isLogin ? t.createAccount : t.alreadyHaveAccount,
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Row(
+                      children: [
+                        const Expanded(child: Divider(thickness: 1)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(t.or, style: theme.textTheme.bodyMedium),
+                        ),
+                        const Expanded(child: Divider(thickness: 1)),
+                      ],
+                    ),
+                  ),
+                  _buildMainButton(
+                    text: t.loginWithGoogle,
+                    onPressed: () {
+                      if (!isLoading) _signInWithGoogle();
+                    },
+                    icon: Icons.login,
+                    color: Colors.red.shade600,
+                  ),
+                  SizedBox(height: screenHeight * 0.05),
+                  DropdownButton<Locale>(
+                    value: context.read<LocaleProvider>().locale ??
+                        const Locale('es'),
+                    onChanged: isLoading
+                        ? null
+                        : (locale) {
+                            if (locale != null) {
+                              context.read<LocaleProvider>().setLocale(locale);
+                            }
+                          },
+                    dropdownColor: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(12),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: Locale('es'),
+                        child: Text("Español"),
+                      ),
+                      DropdownMenuItem(
+                        value: Locale('en'),
+                        child: Text("English"),
+                      ),
+                    ],
                   ),
                 ],
-              )
-            ],
+              ),
+            ),
           ),
-        ),
+          if (isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.4),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
     );
   }

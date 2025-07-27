@@ -78,6 +78,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get alreadyHaveAccount => '¿Ya tienes cuenta? Iniciar sesión';
 
   @override
+  String get authError => 'Error durante la autenticacion';
+
+  @override
   String get or => 'O';
 
   @override
@@ -106,4 +109,22 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get themeDark => 'Oscuro';
+
+  @override
+  String get forgotPassword => '¿Olvidaste tu contraseña?';
+
+  @override
+  String get resetPasswordInstruction => 'Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.';
+
+  @override
+  String get sendResetLink => 'Enviar enlace de restablecimiento';
+
+  @override
+  String get passwordResetSent => '¡Correo de restablecimiento enviado!';
+
+  @override
+  String get resetPasswordError => 'No se pudo enviar el correo de restablecimiento';
+
+  @override
+  String get emailRequired => 'Por favor ingresa tu correo electrónico.';
 }

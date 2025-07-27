@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:lashess_by_prii_app/firebase_options.dart';
 import 'package:lashess_by_prii_app/l10n/app_localizations.dart';
 import 'package:lashess_by_prii_app/providers/theme_mode_provider.dart';
+import 'package:lashess_by_prii_app/views/forgot_password_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,7 +21,7 @@ import 'providers/locale_provider.dart'; // ✅ Create this
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Lashess by Prii',
             themeMode: themeModeProvider.themeMode,
-            theme: AppTheme.lightTheme,// 🔥 controlled dynamically
+            theme: AppTheme.lightTheme, // 🔥 controlled dynamically
             darkTheme: AppTheme.darkTheme,
             locale: localeProvider.locale,
             supportedLocales: AppLocalizations.supportedLocales,
@@ -71,5 +73,9 @@ final _router = GoRouter(
     GoRoute(path: '/', builder: (context, state) => SplashScreen()),
     GoRoute(path: '/auth', builder: (context, state) => AuthScreen()),
     GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+    GoRoute(
+      path: '/forgot-password',
+      builder: (context, state) => const ForgotPasswordScreen(),
+    ),
   ],
 );

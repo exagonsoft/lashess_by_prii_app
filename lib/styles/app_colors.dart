@@ -5,7 +5,7 @@ class AppColors {
   static const lightBackground = Color(0xFFFDF3F7);
   static const lightCard = Colors.white;
   static const lightPrimary = Color(0xFFFF69B4); // Pink
-  static const lightAccent = Color(0xFF371B1E); // Burgundy
+  static const lightAccent = Color.fromARGB(255, 105, 100, 104); // Burgundy
   static const lightTextPrimary = Colors.black87;
   static const lightTextSecondary = Colors.black54;
   static const lightIconPrimary = Color.fromARGB(255, 97, 15, 15);
@@ -15,7 +15,7 @@ class AppColors {
   static const darkBackground = Color.fromARGB(214, 56, 49, 56);
   static const darkCard = Color(0xFF2D2A2D);
   static const darkPrimary = Color(0xFFFF8EC8);
-  static const darkAccent = Color(0xFFFFC0CB);
+  static const darkAccent = Color.fromARGB(255, 105, 100, 104);
   static const darkTextPrimary = Colors.white;
   static const darkTextSecondary = Colors.grey;
   static const darkIconPrimary = Color.fromARGB(255, 126, 53, 53);

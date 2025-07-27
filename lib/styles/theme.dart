@@ -35,12 +35,9 @@ class AppTheme {
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: AppColors.lightPrimary,
       selectedItemColor: AppColors.lightAccent,
-      unselectedItemColor: AppColors.lightTextSecondary,
-      selectedIconTheme: IconThemeData(color: AppColors.darkIconPrimary),
-      unselectedIconTheme: IconThemeData(color: AppColors.darkIconSecondary),
-    ),
-    iconTheme: const IconThemeData(
-      color: AppColors.lightIconPrimary, // ✅ Use dark text primary
+      unselectedItemColor: AppColors.lightTextPrimary,
+      selectedIconTheme: IconThemeData(color: AppColors.lightAccent),
+      unselectedIconTheme: IconThemeData(color: AppColors.lightTextPrimary),
     ),
   );
 
@@ -77,12 +74,9 @@ class AppTheme {
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: AppColors.darkPrimary,
       selectedItemColor: AppColors.darkAccent,
-      unselectedItemColor: AppColors.darkTextSecondary,
-      selectedIconTheme: IconThemeData(color: AppColors.darkIconPrimary),
-      unselectedIconTheme: IconThemeData(color: AppColors.darkIconSecondary),
-    ),
-    iconTheme: const IconThemeData(
-      color: AppColors.darkIconPrimary, // ✅ Use dark text primary
+      unselectedItemColor: AppColors.darkTextPrimary,
+      selectedIconTheme: IconThemeData(color: AppColors.darkAccent),
+      unselectedIconTheme: IconThemeData(color: AppColors.darkTextPrimary),
     ),
   );
 }

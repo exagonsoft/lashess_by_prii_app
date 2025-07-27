@@ -23,6 +23,7 @@
   "login": "Acceso",
   "register": "Registro",
   "alreadyHaveAccount": "¿Ya tienes cuenta? Iniciar sesión",
+  "authError": "Error durante la autenticacion",
   "or": "O",
   "loginWithGoogle": "Iniciar sesión con Google",
   "authSubtitle": "Únete para vivir la mejor experiencia de belleza.",
@@ -32,5 +33,11 @@
   "themeMode": "Modo de tema",
   "themeSystem": "Automático",
   "themeLight": "Claro",
-  "themeDark": "Oscuro"
+  "themeDark": "Oscuro",
+   "forgotPassword": "¿Olvidaste tu contraseña?",
+  "resetPasswordInstruction": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
+  "sendResetLink": "Enviar enlace de restablecimiento",
+  "passwordResetSent": "¡Correo de restablecimiento enviado!",
+  "resetPasswordError": "No se pudo enviar el correo de restablecimiento",
+  "emailRequired": "Por favor ingresa tu correo electrónico."
 }

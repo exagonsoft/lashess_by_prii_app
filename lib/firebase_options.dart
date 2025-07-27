@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDvdPZYogVCNYDui4nmhs1NF3EFYke1fT0',
-    appId: '1:302024968063:android:add6978a2820183e5fbc4a',
+    appId: '1:302024968063:android:995c95b92549bc355fbc4a',
     messagingSenderId: '302024968063',
     projectId: 'lashess-by-prii',
     storageBucket: 'lashess-by-prii.firebasestorage.app',
@@ -66,11 +66,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCxUjqpmsklJS97LB1kDzcm6CXAHRlN1TY',
-    appId: '1:302024968063:ios:405dcf4c8e841dd75fbc4a',
+    appId: '1:302024968063:ios:135650935e7d92c95fbc4a',
     messagingSenderId: '302024968063',
     projectId: 'lashess-by-prii',
     storageBucket: 'lashess-by-prii.firebasestorage.app',
+    androidClientId: '302024968063-6fmm1ffar50vn22gqk3th70340n3ikm7.apps.googleusercontent.com',
     iosClientId: '302024968063-4lggpal1pmrhmp7batohcggm81ttmf82.apps.googleusercontent.com',
     iosBundleId: 'com.example.lashessByPriiApp',
   );
+
 }
