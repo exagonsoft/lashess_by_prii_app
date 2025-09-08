@@ -62,10 +62,21 @@ android {
         }
     }
 
-    // flavorDimensions "default"
+    flavorDimensions "default"
     productFlavors {
+        dev {
+            dimension "default"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+        }
+        staging {
+            dimension "default"
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+        }
         production {
             dimension "default"
+            // no suffix for release
         }
     }
 }
