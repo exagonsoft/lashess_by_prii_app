@@ -9,6 +9,33 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get appTitle => 'Lashess by Prii';
+
+  @override
+  String get welcome => 'Welcome!';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get schedule => 'Schedule';
+
+  @override
+  String get info => 'Info';
+
+  @override
+  String get map => 'Map';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
   String get trendingStyles => '🔥 Trending Styles';
 
   @override
@@ -33,34 +60,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageLabel => 'Select language';
 
   @override
-  String get appTitle => 'Lashess by Prii';
+  String get theme => 'Theme';
 
   @override
-  String get home => 'Home';
+  String get themeMode => 'Theme mode';
 
   @override
-  String get schedule => 'Schedule';
+  String get themeSystem => 'System';
 
   @override
-  String get info => 'Info';
+  String get themeLight => 'Light';
 
   @override
-  String get map => 'Map';
+  String get themeDark => 'Dark';
 
   @override
-  String get settings => 'Settings';
-
-  @override
-  String get profile => 'Profile';
-
-  @override
-  String get logout => 'Logout';
-
-  @override
-  String get welcome => 'Welcome!';
+  String get language => 'Language';
 
   @override
   String get createAccount => 'Create Account';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account? Log in';
+
+  @override
+  String get signIn => 'Sign in';
 
   @override
   String get email => 'Email';
@@ -75,19 +99,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get register => 'Register';
 
   @override
-  String get alreadyHaveAccount => 'Already have an account? Log in';
+  String get authSubtitle => 'Join us for the best beauty experience.';
 
   @override
   String get authError => 'Error during authentication';
-
-  @override
-  String get or => 'OR';
-
-  @override
-  String get loginWithGoogle => 'Sign in with Google';
-
-  @override
-  String get authSubtitle => 'Join us for the best beauty experience.';
 
   @override
   String get googleSignInCancelled => 'Google Sign-In was canceled or failed.';
@@ -96,19 +111,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get googleSignInError => 'An error occurred during Google Sign-In.';
 
   @override
-  String get theme => 'Theme';
+  String get or => 'OR';
 
   @override
-  String get themeMode => 'Theme mode';
+  String get loginWithGoogle => 'Sign in with Google';
 
   @override
-  String get themeSystem => 'System';
-
-  @override
-  String get themeLight => 'Light';
-
-  @override
-  String get themeDark => 'Dark';
+  String get loginWithFacebook => 'Sign in with Facebook';
 
   @override
   String get forgotPassword => 'Forgot Password?';
@@ -127,4 +136,90 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emailRequired => 'Please enter your email address.';
+
+  @override
+  String get requiredField => 'This field is required.';
+
+  @override
+  String get invalidEmail => 'Please enter a valid email address.';
+
+  @override
+  String get passwordTooShort => 'Password must be at least 6 characters.';
+
+  @override
+  String get wrongCredentials => 'Incorrect email or password.';
+
+  @override
+  String get userNotFound => 'We couldn\'t find an account with that email.';
+
+  @override
+  String get emailInUse => 'This email is already in use.';
+
+  @override
+  String get networkError => 'Network error. Please check your connection and try again.';
+
+  @override
+  String get whatClientsSay => 'What our clients say';
+
+  @override
+  String get specialOffer => 'Special Offer';
+
+  @override
+  String get quickBooking => 'Quick Booking';
+
+  @override
+  String get servicesAndPrices => 'Services & Prices';
+
+  @override
+  String get contactUs => 'Contact Us';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get bookAppointment => 'Book an Appointment';
+
+  @override
+  String get selectDate => 'Select a Date';
+
+  @override
+  String get selectStylist => 'Select a Stylist';
+
+  @override
+  String get selectTime => 'Select a Time';
+
+  @override
+  String get book => 'Book';
+
+  @override
+  String get senar => 'Senar';
+
+  @override
+  String get bookingConfirmed => '✅ Appointment booked';
+
+  @override
+  String get bookingIncomplete => '⚠️ Please select a stylist and time';
+
+  @override
+  String get loyaltyPoints => 'Loyalty Points';
+
+  @override
+  String points(Object count) {
+    return '$count points';
+  }
+
+  @override
+  String get myAppointments => 'My Appointments';
+
+  @override
+  String get paymentMethods => 'Payment Methods';
+
+  @override
+  String get showPassword => 'Show password';
+
+  @override
+  String get hidePassword => 'Hide password';
+
+  @override
+  String get featureComingSoon => 'This feature is coming soon!';
 }

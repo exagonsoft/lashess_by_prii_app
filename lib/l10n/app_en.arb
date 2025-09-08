@@ -1,14 +1,9 @@
 {
   "@@locale": "en",
-  "trendingStyles": "🔥 Trending Styles",
-  "upcomingEvents": "🎉 Upcoming Events",
-  "specialOffers": "💰 Special Offers",
-  "featuredLooks": "👁 Featured Looks",
-  "bookNow": "📅 Book your appointment now!",
-  "bookingSoon": "Booking screen coming soon!",
-  "settingsTitle": "Settings",
-  "languageLabel": "Select language",
+
   "appTitle": "Lashess by Prii",
+  "welcome": "Welcome!",
+
   "home": "Home",
   "schedule": "Schedule",
   "info": "Info",
@@ -16,28 +11,83 @@
   "settings": "Settings",
   "profile": "Profile",
   "logout": "Logout",
-  "welcome": "Welcome!",
-  "createAccount": "Create Account",
-  "email": "Email",
-  "password": "Password",
-  "login": "Login",
-  "register": "Register",
-  "alreadyHaveAccount": "Already have an account? Log in",
-  "authError": "Error during authentication",
-  "or": "OR",
-  "loginWithGoogle": "Sign in with Google",
-  "authSubtitle": "Join us for the best beauty experience.",
-  "googleSignInCancelled": "Google Sign-In was canceled or failed.",
-  "googleSignInError": "An error occurred during Google Sign-In.",
+
+  "trendingStyles": "🔥 Trending Styles",
+  "upcomingEvents": "🎉 Upcoming Events",
+  "specialOffers": "💰 Special Offers",
+  "featuredLooks": "👁 Featured Looks",
+  "bookNow": "📅 Book your appointment now!",
+  "bookingSoon": "Booking screen coming soon!",
+
+  "settingsTitle": "Settings",
+  "languageLabel": "Select language",
   "theme": "Theme",
   "themeMode": "Theme mode",
   "themeSystem": "System",
   "themeLight": "Light",
   "themeDark": "Dark",
+  "language": "Language",
+
+  "createAccount": "Create Account",
+  "alreadyHaveAccount": "Already have an account? Log in",
+  "signIn": "Sign in",
+  "email": "Email",
+  "password": "Password",
+  "login": "Login",
+  "register": "Register",
+
+  "authSubtitle": "Join us for the best beauty experience.",
+  "authError": "Error during authentication",
+  "googleSignInCancelled": "Google Sign-In was canceled or failed.",
+  "googleSignInError": "An error occurred during Google Sign-In.",
+
+  "or": "OR",
+  "loginWithGoogle": "Sign in with Google",
+  "loginWithFacebook": "Sign in with Facebook",
+
   "forgotPassword": "Forgot Password?",
   "resetPasswordInstruction": "Enter your email and we'll send you a link to reset your password.",
   "sendResetLink": "Send Reset Link",
   "passwordResetSent": "Password reset email sent!",
   "resetPasswordError": "Failed to send reset email",
-  "emailRequired": "Please enter your email address."
+  "emailRequired": "Please enter your email address.",
+
+  "requiredField": "This field is required.",
+  "invalidEmail": "Please enter a valid email address.",
+  "passwordTooShort": "Password must be at least 6 characters.",
+  "wrongCredentials": "Incorrect email or password.",
+  "userNotFound": "We couldn't find an account with that email.",
+  "emailInUse": "This email is already in use.",
+  "networkError": "Network error. Please check your connection and try again.",
+
+  "whatClientsSay": "What our clients say",
+  "specialOffer": "Special Offer",
+  "quickBooking": "Quick Booking",
+
+  "servicesAndPrices": "Services & Prices",
+  "contactUs": "Contact Us",
+  "location": "Location",
+
+  "bookAppointment": "Book an Appointment",
+  "selectDate": "Select a Date",
+  "selectStylist": "Select a Stylist",
+  "selectTime": "Select a Time",
+  "book": "Book",
+  "senar": "Senar", 
+  "bookingConfirmed": "✅ Appointment booked",
+  "bookingIncomplete": "⚠️ Please select a stylist and time",
+
+  "loyaltyPoints": "Loyalty Points",
+  "points": "{count} points",
+  "@points": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "myAppointments": "My Appointments",
+  "paymentMethods": "Payment Methods",
+
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "featureComingSoon": "This feature is coming soon!"
 }

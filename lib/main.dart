@@ -4,14 +4,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lashess_by_prii_app/firebase_options.dart';
 import 'package:lashess_by_prii_app/l10n/app_localizations.dart';
 import 'package:lashess_by_prii_app/providers/theme_mode_provider.dart';
-import 'package:lashess_by_prii_app/views/forgot_password_screen.dart';
+import 'package:lashess_by_prii_app/repositories/services_repository.dart';
+import 'package:lashess_by_prii_app/routes/app-routes.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
-
 import 'styles/theme.dart';
-import 'views/splash_screen.dart';
-import 'views/auth_screen.dart';
-import 'views/home_screen.dart';
 import 'providers/user_provider.dart';
 import 'controllers/main_controller.dart';
 import 'repositories/events_repository.dart';
@@ -39,6 +35,7 @@ class MyApp extends StatelessWidget {
             eventsRepository: EventsRepository(),
             offersRepository: OffersRepository(),
             stylesRepository: StylesRepository(),
+            servicesRepository: ServicesRepository(), // ✅ Add this
           ),
         ),
         ChangeNotifierProvider(create: (_) => LocaleProvider()), // ✅ Locale
@@ -59,23 +56,10 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            routerConfig: _router,
+            routerConfig: router,
           );
         },
       ),
     );
   }
 }
-
-final _router = GoRouter(
-  initialLocation: '/',
-  routes: [
-    GoRoute(path: '/', builder: (context, state) => SplashScreen()),
-    GoRoute(path: '/auth', builder: (context, state) => AuthScreen()),
-    GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
-    GoRoute(
-      path: '/forgot-password',
-      builder: (context, state) => const ForgotPasswordScreen(),
-    ),
-  ],
-);
