@@ -40,9 +40,9 @@ android {
     signingConfigs {
         release {
             storeFile file("release-key.jks")
-            storePassword System.getenv("CM_KEYSTORE_PASSWORD") ?: "default_password"
-            keyAlias System.getenv("CM_KEY_ALIAS") ?: "default_alias"
-            keyPassword System.getenv("CM_KEY_PASSWORD") ?: "default_key_password"
+            storePassword System.getenv("CM_KEYSTORE_PASSWORD") ?: "SabriSamymartin11*"
+            keyAlias System.getenv("CM_KEY_ALIAS") ?: "release"
+            keyPassword System.getenv("CM_KEY_PASSWORD") ?: "SabriSamymartin11*"
         }
         debug {
             keyAlias "release"
