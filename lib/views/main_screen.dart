@@ -1,123 +1,208 @@
 import 'package:flutter/material.dart';
-import 'package:lashess_by_prii_app/widgets/featured_look_card.dart';
-import 'package:lashess_by_prii_app/l10n/app_localizations.dart';
+import 'package:lashess_by_prii_app/views/base_screen_scafold.dart';
+import 'package:lashess_by_prii_app/widgets/offer_card.dart';
+import 'package:lashess_by_prii_app/widgets/services_skeleton_loader.dart';
+import 'package:lashess_by_prii_app/widgets/testimonial_form.dart';
 import 'package:provider/provider.dart';
-import '../../controllers/main_controller.dart';
-import '../../widgets/trending_card.dart';
-import '../../widgets/event_card.dart';
-import '../../widgets/offer_card.dart';
-import '../../widgets/call_to_action_card.dart';
-import '../../widgets/section_header.dart';
+import 'package:lashess_by_prii_app/controllers/main_controller.dart';
+import 'package:lashess_by_prii_app/l10n/app_localizations.dart';
+import 'package:lashess_by_prii_app/widgets/service_card.dart';
+import 'package:lashess_by_prii_app/widgets/stylist_card.dart';
+import 'package:lashess_by_prii_app/widgets/booking_button.dart';
+import 'package:lashess_by_prii_app/widgets/testimonial_card.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(
-        () => Provider.of<MainController>(context, listen: false).loadData());
-  }
-
-  Future<void> _onRefresh() async {
-    await Provider.of<MainController>(context, listen: false)
-        .loadData(forceRefresh: true);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<MainController>(context);
-    final ThemeData theme = Theme.of(context);
+    final controller = context.watch<MainController>();
+    final t = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
-    return Scaffold(
-      body: controller.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: _onRefresh,
-              child: Container(
-                color: theme.scaffoldBackgroundColor,
-                child: ListView(
-                  padding: const EdgeInsets.all(12),
-                  children: [
-                    if (controller.styles.isNotEmpty) ...[
-                      SectionHeader(title: AppLocalizations.of(context)!.trendingStyles),
-                      SizedBox(
-                        height: 250,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: controller.styles.length,
-                          itemBuilder: (context, index) {
-                            final style = controller.styles[index];
-                            return TrendingCard(
-                              title: style.name,
-                              imageUrl: style.imageUrl,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                    if (controller.events.isNotEmpty) ...[
-                      SectionHeader(title: AppLocalizations.of(context)!.upcomingEvents),
-                      for (var event in controller.events)
-                        EventCard(
-                          title: event.title,
-                          date: event.date.toLocal().toString().split(" ")[0],
-                          imageUrl: event.imageUrl,
-                          url: event.url,
-                        ),
-                    ],
-                    if (controller.offers.isNotEmpty) ...[
-                      SectionHeader(title: AppLocalizations.of(context)!.specialOffers),
-                      SizedBox(
-                        height: 250,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: controller.offers.length,
-                          itemBuilder: (context, index) {
-                            final offer = controller.offers[index];
-                            return OfferCard(
-                              title: offer.title,
-                              subtitle: offer.subtitle,
-                              imageUrl: offer.imageUrl,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                    SectionHeader(title: AppLocalizations.of(context)!.featuredLooks),
-                    SizedBox(
-                      height: 200,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        itemCount: controller.styles.take(3).length,
-                        itemBuilder: (context, index) {
-                          final style = controller.styles[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            child: FeaturedStyleCard(
-                              imageUrl: style.imageUrl,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    CallToActionCard(
-                      text: AppLocalizations.of(context)!.bookNow,
-                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('¡Pantalla de reservas disponible pronto!')),
-                      ),
-                    ),
-                  ],
-                ),
+    return BaseScaffold(
+      currentIndex: 0,
+      showBack: false,
+      body: RefreshIndicator(
+        onRefresh: () => controller.loadData(forceRefresh: true),
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            // ✅ Welcome
+            Text(
+              "${t.welcome} to ${t.appTitle}",
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 20),
+
+            // ✅ Hero image (skeleton while loading)
+            controller.isLoading
+                ? const SkeletonBox(height: 180, borderRadius: 16)
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.asset(
+                      "assets/images/salon_banner.jpg",
+                      fit: BoxFit.cover,
+                      height: 180,
+                      width: double.infinity,
+                    ),
+                  ),
+            const SizedBox(height: 24),
+
+            // ✅ Services
+            Text(
+              t.servicesAndPrices,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 150,
+              child: controller.isLoading
+                  ? ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 3,
+                      separatorBuilder: (_, __) => const SizedBox(width: 12),
+                      itemBuilder: (_, __) =>
+                          const SkeletonBox(width: 120, height: 150, borderRadius: 16),
+                    )
+                  : ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: controller.services.length,
+                      itemBuilder: (context, index) {
+                        final service = controller.services[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: ServiceCard(
+                            label: service.name,
+                            imagePath: service.imageUrl,
+                          ),
+                        );
+                      },
+                    ),
+            ),
+            const SizedBox(height: 28),
+
+            // ✅ Special Offer + Stylists
+            controller.isLoading
+                ? Row(
+                    children: const [
+                      Expanded(child: SkeletonBox(height: 160, borderRadius: 16)),
+                      SizedBox(width: 16),
+                      SkeletonBox(width: 100, height: 160, borderRadius: 16),
+                    ],
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: OfferCard(
+                          slogan: t.specialOffer,
+                          title: "20% OFF",
+                          subtitle: "FULL SET",
+                          imagePath: "assets/images/offer_bg.png",
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: const [
+                            StylistCard(
+                                name: "Emma",
+                                image: "assets/images/stylist1.png"),
+                            SizedBox(height: 16),
+                            StylistCard(
+                                name: "Sophia",
+                                image: "assets/images/stylist2.png"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+            const SizedBox(height: 28),
+
+            // ✅ Quick Booking
+            Row(
+              children: [
+                const Icon(Icons.access_time, size: 20),
+                const SizedBox(width: 8),
+                Text(t.quickBooking,
+                    style: theme.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: controller.isLoading
+                  ? const [
+                      SkeletonBox(width: 80, height: 40, borderRadius: 20),
+                      SkeletonBox(width: 80, height: 40, borderRadius: 20),
+                      SkeletonBox(width: 80, height: 40, borderRadius: 20),
+                    ]
+                  : const [
+                      BookingButton("10:00 AM"),
+                      BookingButton("11:00 AM"),
+                      BookingButton("12:00 PM"),
+                    ],
+            ),
+            const SizedBox(height: 28),
+
+            // ✅ Testimonials
+            Row(
+              children: [
+                Icon(Icons.favorite, size: 20, color: Colors.redAccent),
+                const SizedBox(width: 8),
+                Text(
+                  t.whatClientsSay,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 120,
+              child: controller.isLoading
+                  ? ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 2,
+                      separatorBuilder: (_, __) => const SizedBox(width: 12),
+                      itemBuilder: (_, __) =>
+                          const SkeletonBox(width: 200, height: 120, borderRadius: 16),
+                    )
+                  : ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: const [
+                        TestimonialCard(
+                          text: "Amazing service, I love my lashes! 🤍",
+                          author: "Maria",
+                        ),
+                        TestimonialCard(
+                          text: "Best salon experience ever! ⭐⭐⭐⭐⭐",
+                          author: "Ana",
+                        ),
+                      ],
+                    ),
+            ),
+            const SizedBox(height: 20),
+
+            // ✅ Submit testimonial form
+            if (!controller.isLoading)
+              TestimonialForm(
+                onSubmit: (text, author) {
+                  debugPrint("📢 New testimonial: $text by $author");
+                },
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

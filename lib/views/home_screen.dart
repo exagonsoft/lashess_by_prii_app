@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<UserProvider>(context, listen: false).loadUser();
+      Provider.of<UserProvider>(context, listen: false).reloadUser();
     });
   }
 

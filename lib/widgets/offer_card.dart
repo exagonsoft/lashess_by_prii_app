@@ -1,59 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:lashess_by_prii_app/widgets/trending_modal.dart';
+import 'package:lashess_by_prii_app/styles/app_colors.dart';
 
 class OfferCard extends StatelessWidget {
+  final String slogan;
   final String title;
   final String subtitle;
-  final String imageUrl;
+  final String imagePath;
 
   const OfferCard({
+    required this.slogan,
+    super.key,
     required this.title,
     required this.subtitle,
-    required this.imageUrl,
-    super.key,
+    this.imagePath = "assets/images/offer_bg.png",
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    final isLight = Theme.of(context).brightness == Brightness.light;
+    final theme = Theme.of(context);
+
+    return Container(
+      height: 140,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        image: DecorationImage(
+          image: AssetImage(imagePath),
+          fit: BoxFit.fill,
+          colorFilter: ColorFilter.mode(
+            isLight
+                ? Colors.white.withOpacity(0.1)
+                : AppColors.darkBackground.withOpacity(0.3),
+            BlendMode.dstATop,
+          ),
         ),
-        builder: (_) => TrendingStyleDetailModal(
-          imageUrl: imageUrl,
-          title: title,
-        ),
+        color: isLight ? AppColors.lightCard : AppColors.darkCard,
       ),
-      child:Container(
-      width: 220,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.network(imageUrl, height: 140, fit: BoxFit.cover),
+            Text(slogan,
+                style: theme.textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: isLight
+                        ? AppColors.lightTextPrimary
+                        : AppColors.darkTextPrimary,
+                  ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  const SizedBox(height: 4),
-                  Text(subtitle, style: const TextStyle(color: Colors.grey)),
-                ],
-              ),
-            )
+            const SizedBox(height: 6),
+            Text(
+              subtitle,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: isLight
+                        ? AppColors.lightTextSecondary
+                        : AppColors.darkTextSecondary,
+                  ),
+            ),
           ],
         ),
-      ),
       ),
     );
   }

@@ -27,7 +27,11 @@ class TrendingStyleDetailModal extends StatelessWidget {
               const SizedBox(height: 16),
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(imageUrl),
+                child: Image.asset(
+                  imageUrl,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
               ),
               const SizedBox(height: 16),
               Text("This is a trending style. You can book this look with your stylist.",
