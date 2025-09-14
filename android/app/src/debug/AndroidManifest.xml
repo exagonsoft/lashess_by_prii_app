@@ -4,4 +4,11 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <application android:label="Lashees By Prii" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
+        <!-- ✅ Default push notification icon -->
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_ic_notification" />
+
+        <!-- ✅ Optional: set accent color for notifications -->
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/notification_color" />
+    </application>
 </manifest>

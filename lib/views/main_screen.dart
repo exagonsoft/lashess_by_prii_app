@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lashess_by_prii_app/views/base_screen_scafold.dart';
-import 'package:lashess_by_prii_app/widgets/offer_card.dart';
+import 'package:lashess_by_prii_app/widgets/offer_card_slider.dart';
 import 'package:lashess_by_prii_app/widgets/services_skeleton_loader.dart';
 import 'package:lashess_by_prii_app/widgets/testimonial_form.dart';
 import 'package:provider/provider.dart';
@@ -100,12 +100,7 @@ class MainScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 2,
-                        child: OfferCard(
-                          slogan: t.specialOffer,
-                          title: "20% OFF",
-                          subtitle: "FULL SET",
-                          imagePath: "assets/images/offer_bg.png",
-                        ),
+                        child: OfferSlider(offers: controller.offers),
                       ),
                       const SizedBox(width: 16),
                       Expanded(

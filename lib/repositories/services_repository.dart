@@ -6,7 +6,7 @@ class ServicesRepository {
   final String apiUrl;
   List<LashesService> _cache = [];
 
-  ServicesRepository({this.apiUrl = 'http://localhost:3000'});
+  ServicesRepository({this.apiUrl = 'https://www.lashees-by-prii.exagon-soft.com/api/v1/public'});
 
   Future<List<LashesService>> getServices({bool forceRefresh = false}) async {
     if (!forceRefresh && _cache.isNotEmpty) {
@@ -37,7 +37,7 @@ class ServicesRepository {
 
   Future<bool> _isApiHealthy() async {
     try {
-      final response = await http.get(Uri.parse('$apiUrl/health'));
+      final response = await http.get(Uri.parse('$apiUrl/healt'));
       return response.statusCode == 200;
     } catch (_) {
       return false;

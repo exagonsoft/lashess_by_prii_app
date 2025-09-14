@@ -13,11 +13,20 @@ import 'controllers/main_controller.dart';
 import 'repositories/events_repository.dart';
 import 'repositories/offers_repository.dart';
 import 'repositories/styles_repository.dart';
-import 'providers/locale_provider.dart'; // ✅ Create this
+import 'providers/locale_provider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'utils/firebase_utils.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Setup FCM background handler + local notifications
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  // Pass a callback for navigation
+  await setupFlutterNotifications();
+  await FirebaseMessaging.instance.requestPermission();
+
   runApp(const MyApp());
 }
 
@@ -28,17 +37,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(
+            create: (_) => UserProvider()), // ✅ Now handles FCM token sync
         ChangeNotifierProvider(create: (_) => ThemeModeProvider()),
         ChangeNotifierProvider(
           create: (_) => MainController(
             eventsRepository: EventsRepository(),
             offersRepository: OffersRepository(),
             stylesRepository: StylesRepository(),
-            servicesRepository: ServicesRepository(), // ✅ Add this
+            servicesRepository: ServicesRepository(),
           ),
         ),
-        ChangeNotifierProvider(create: (_) => LocaleProvider()), // ✅ Locale
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
       child: Consumer2<LocaleProvider, ThemeModeProvider>(
         builder: (context, localeProvider, themeModeProvider, child) {
@@ -46,7 +56,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Lashess by Prii',
             themeMode: themeModeProvider.themeMode,
-            theme: AppTheme.lightTheme, // 🔥 controlled dynamically
+            theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             locale: localeProvider.locale,
             supportedLocales: AppLocalizations.supportedLocales,
