@@ -7,6 +7,7 @@ import 'package:lashess_by_prii_app/views/payment_screen.dart';
 import 'package:lashess_by_prii_app/views/profile_screen.dart';
 import 'package:lashess_by_prii_app/views/settings_screen.dart';
 import 'package:lashess_by_prii_app/views/splash_screen.dart';
+import 'package:lashess_by_prii_app/widgets/offer_loader.dart';
 import '../views/main_screen.dart';
 import '../views/booking_screen.dart';
 
@@ -58,6 +59,14 @@ final router = GoRouter(
       name: 'payments',
       path: '/payments',
       builder: (context, state) => const PaymentScreen(),
+    ),
+    GoRoute(
+      name: 'offer-details',
+      path: '/offer-details/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return OfferDetailsLoader(id: id);
+      },
     ),
   ],
 );

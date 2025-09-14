@@ -78,18 +78,6 @@ class _BookingScreenState extends State<BookingScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // ✅ Title
-            Text(
-              t.bookAppointment,
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: isLight
-                    ? AppColors.lightTextPrimary
-                    : AppColors.darkTextPrimary,
-              ),
-            ),
-            const SizedBox(height: 20),
-
             // ✅ Expandable content
             Expanded(
               child: SingleChildScrollView(

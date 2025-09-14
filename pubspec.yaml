@@ -53,6 +53,8 @@ dependencies:
   flutter_gen: ^5.10.0
   font_awesome_flutter: ^10.8.0
   table_calendar: ^3.2.0
+  firebase_messaging: ^16.0.1
+  shared_preferences: ^2.5.3
 
 
 dev_dependencies:
@@ -67,7 +69,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/icon.png"  # Path to your icon file
+  image_path: "assets/images/icon.png"  # Path to your icon file
   adaptive_icon_background: "#ffffff"  # Background for adaptive icons (Android)
 
 # The following section is specific to Flutter packages.

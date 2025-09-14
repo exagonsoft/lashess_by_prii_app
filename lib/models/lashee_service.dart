@@ -15,11 +15,11 @@ class LashesService {
 
   factory LashesService.fromJson(Map<String, dynamic> json) {
     return LashesService(
-      id: json['id'] ?? '',
+      id: json['id'].toString(),
       name: json['name'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
       description: json['description'] ?? '',
-      price: json['price'] ?? '',
+      price: json['price'].toString(),
     );
   }
 }
