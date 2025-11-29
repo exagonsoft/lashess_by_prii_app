@@ -7,9 +7,38 @@ import 'package:provider/provider.dart';
 import 'package:lashess_by_prii_app/controllers/main_controller.dart';
 import 'package:lashess_by_prii_app/l10n/app_localizations.dart';
 import 'package:lashess_by_prii_app/widgets/service_card.dart';
-import 'package:lashess_by_prii_app/widgets/stylist_card.dart';
 import 'package:lashess_by_prii_app/widgets/booking_button.dart';
 import 'package:lashess_by_prii_app/widgets/testimonial_card.dart';
+import 'package:lashess_by_prii_app/widgets/stylist_card.dart';
+
+/// ✅ Reusable Section Header
+class SectionHeader extends StatelessWidget {
+  final IconData icon;
+  final String title;
+
+  const SectionHeader({
+    super.key,
+    required this.icon,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      children: [
+        Icon(icon, size: 20, color: theme.colorScheme.primary),
+        const SizedBox(width: 8),
+        Text(
+          title,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -37,7 +66,7 @@ class MainScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // ✅ Hero image (skeleton while loading)
+            // ✅ Hero image
             controller.isLoading
                 ? const SkeletonBox(height: 180, borderRadius: 16)
                 : ClipRRect(
@@ -52,12 +81,7 @@ class MainScreen extends StatelessWidget {
             const SizedBox(height: 24),
 
             // ✅ Services
-            Text(
-              t.servicesAndPrices,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            SectionHeader(icon: Icons.design_services, title: t.servicesAndPrices),
             const SizedBox(height: 12),
             SizedBox(
               height: 150,
@@ -86,51 +110,66 @@ class MainScreen extends StatelessWidget {
             ),
             const SizedBox(height: 28),
 
-            // ✅ Special Offer + Stylists
+            // ✅ Special Offers + Stylists
+            SectionHeader(icon: Icons.local_offer, title: t.specialOffers),
+            const SizedBox(height: 12),
             controller.isLoading
-                ? Row(
-                    children: const [
-                      Expanded(child: SkeletonBox(height: 160, borderRadius: 16)),
-                      SizedBox(width: 16),
-                      SkeletonBox(width: 100, height: 160, borderRadius: 16),
-                    ],
-                  )
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: OfferSlider(offers: controller.offers),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: const [
-                            StylistCard(
-                                name: "Emma",
-                                image: "assets/images/stylist1.png"),
-                            SizedBox(height: 16),
-                            StylistCard(
-                                name: "Sophia",
-                                image: "assets/images/stylist2.png"),
-                          ],
+                ? const SkeletonBox(height: 260, borderRadius: 16)
+                : Container(
+                    decoration: BoxDecoration(
+                      color: theme.cardColor,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // 👉 Offer slider
+                        SizedBox(
+                          height: 180,
+                          child: OfferSlider(offers: controller.offers),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // 👉 Stylists row
+                        Text(
+                          t.meetOurStylists,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          height: 110,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: const [
+                              StylistCard(
+                                name: "Emma",
+                                image: "assets/images/stylist1.png",
+                              ),
+                              SizedBox(width: 16),
+                              StylistCard(
+                                name: "Sophia",
+                                image: "assets/images/stylist2.png",
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
             const SizedBox(height: 28),
 
             // ✅ Quick Booking
-            Row(
-              children: [
-                const Icon(Icons.access_time, size: 20),
-                const SizedBox(width: 8),
-                Text(t.quickBooking,
-                    style: theme.textTheme.titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold)),
-              ],
-            ),
+            SectionHeader(icon: Icons.access_time, title: t.quickBooking),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -149,18 +188,7 @@ class MainScreen extends StatelessWidget {
             const SizedBox(height: 28),
 
             // ✅ Testimonials
-            Row(
-              children: [
-                Icon(Icons.favorite, size: 20, color: Colors.redAccent),
-                const SizedBox(width: 8),
-                Text(
-                  t.whatClientsSay,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            SectionHeader(icon: Icons.favorite, title: t.whatClientsSay),
             const SizedBox(height: 12),
             SizedBox(
               height: 120,
@@ -188,7 +216,7 @@ class MainScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // ✅ Submit testimonial form
+            // ✅ Testimonial form
             if (!controller.isLoading)
               TestimonialForm(
                 onSubmit: (text, author) {

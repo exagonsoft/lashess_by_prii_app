@@ -10,7 +10,6 @@ class OfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLight = Theme.of(context).brightness == Brightness.light;
     final theme = Theme.of(context);
 
     return GestureDetector(
@@ -20,49 +19,52 @@ class OfferCard extends StatelessWidget {
           pathParameters: {'id': offer.id},
         );
       },
-      child: Container(
-        height: 140,
-        decoration: BoxDecoration(
+      child: Card(
+        elevation: 4, // ✅ shadow depth
+        shadowColor: Colors.black.withOpacity(0.4), // ✅ softer shadow
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          image: DecorationImage(
-            image: NetworkImage(offer.imageUrl),
-            fit: BoxFit.fill,
-            colorFilter: ColorFilter.mode(
-              isLight
-                  ? Colors.white.withOpacity(0.1)
-                  : AppColors.darkBackground.withOpacity(0.3),
-              BlendMode.dstATop,
-            ),
-          ),
-          color: isLight ? AppColors.lightCard : AppColors.darkCard,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                offer.title,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: isLight
-                      ? AppColors.lightTextPrimary
-                      : AppColors.darkTextPrimary,
+        clipBehavior: Clip.antiAlias, // ✅ ensures rounded corners apply to image
+        child: Container(
+          height: 180,
+          decoration: BoxDecoration(
+            color: AppColors.appleBlack, // ✅ fallback background
+            image: offer.imageUrl.isNotEmpty
+                ? DecorationImage(
+                    image: NetworkImage(offer.imageUrl),
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      AppColors.appleBlack.withOpacity(0.5), // ✅ dark overlay
+                      BlendMode.darken,
+                    ),
+                  )
+                : null,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  offer.title,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.lightCard, // ✅ white text
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                offer.description,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  color: isLight
-                      ? AppColors.lightTextSecondary
-                      : AppColors.darkTextSecondary,
+                const SizedBox(height: 12),
+                Text(
+                  offer.description,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: AppColors.lightBackground.withOpacity(0.9), // ✅ softer white
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
