@@ -491,6 +491,12 @@ abstract class AppLocalizations {
   /// **'{count} points'**
   String points(Object count);
 
+  /// No description provided for @meetOurStylists.
+  ///
+  /// In en, this message translates to:
+  /// **'Meet Our Stylists'**
+  String get meetOurStylists;
+
   /// No description provided for @myAppointments.
   ///
   /// In en, this message translates to:

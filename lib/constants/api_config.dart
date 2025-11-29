@@ -3,8 +3,8 @@ import 'package:lashess_by_prii_app/interfaces/interfaces.dart';
 const bool isProduction = bool.fromEnvironment('dart.vm.product');
 
 final String baseApi = isProduction
-    ? 'https://lashees_by_prii.com/api'
-    : 'http://192.168.1.15:3000/api';
+    ? 'https://lashess-by-prii-admin-346141067756.us-east4.run.app/api'
+    : 'https://eef19453db64.ngrok-free.app/api';
 
 final services = [
       ServiceInfo(

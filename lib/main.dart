@@ -21,11 +21,51 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Setup FCM background handler + local notifications
+  // Top-level background handler
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-  // Pass a callback for navigation
-  await setupFlutterNotifications();
+
+  // Init notification system with a navigator callback
+  await setupFlutterNotifications(
+    onTapData: (data) {
+      // Prefer routeName + params if provided
+      final routeName = data['routeName'];
+      final id = data['id'];
+      final route = data['route'];
+
+      if (routeName == 'offer-details' && id != null && id is String) {
+        router.pushNamed(
+          'offer-details',
+          pathParameters: {'id': id},
+        );
+      } else if (route is String && route.isNotEmpty) {
+        router.go(route); // works if you sent '/offer-details/:id'
+      }
+    },
+  );
+
+  // (Optional) cold start tap
+  final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    // Delay to ensure router is mounted
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final data = initialMessage.data;
+      final routeName = data['routeName'];
+      final id = data['id'];
+      final route = data['route'];
+      if (routeName == 'offer-details' && id != null && id is String) {
+        router.pushNamed(
+          'offer-details',
+          pathParameters: {'id': id},
+        );
+      } else if (route is String && route.isNotEmpty) {
+        router.go(route);
+      }
+    });
+  }
+
+  // Permissions + topic
   await FirebaseMessaging.instance.requestPermission();
+  await FirebaseMessaging.instance.subscribeToTopic("offers");
 
   runApp(const MyApp());
 }

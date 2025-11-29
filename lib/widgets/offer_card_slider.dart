@@ -47,7 +47,7 @@ class _OfferSliderState extends State<OfferSlider> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 160,
+      height: 180,
       child: PageView.builder(
         controller: _pageController,
         itemCount: widget.offers.length,
@@ -55,7 +55,7 @@ class _OfferSliderState extends State<OfferSlider> {
         itemBuilder: (context, index) {
           final offer = widget.offers[index];
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 8),
             child: OfferCard(offer: offer), // ✅ Pass whole offer
           );
         },

@@ -1,9 +1,7 @@
 {
   "@@locale": "es",
-
   "appTitle": "Lashess by Prii",
   "welcome": "¡Bienvenida!",
-
   "home": "Inicio",
   "schedule": "Agenda",
   "info": "Info",
@@ -11,14 +9,12 @@
   "settings": "Configuración",
   "profile": "Perfil",
   "logout": "Cerrar sesión",
-
   "trendingStyles": "🔥 Estilos en Tendencia",
   "upcomingEvents": "🎉 Próximos Eventos",
   "specialOffers": "💰 Ofertas Especiales",
   "featuredLooks": "👁 Looks Destacados",
   "bookNow": "📅 ¡Reserva tu cita ahora!",
   "bookingSoon": "¡Pantalla de reservas disponible pronto!",
-
   "settingsTitle": "Configuración",
   "languageLabel": "Selecciona el idioma",
   "theme": "Tema",
@@ -27,7 +23,6 @@
   "themeLight": "Claro",
   "themeDark": "Oscuro",
   "language": "Idioma",
-
   "createAccount": "Crear Cuenta",
   "alreadyHaveAccount": "¿Ya tienes cuenta? Inicia sesión",
   "signIn": "Iniciar sesión",
@@ -35,23 +30,19 @@
   "password": "Contraseña",
   "login": "Acceder",
   "register": "Registrarse",
-
   "authSubtitle": "Únete para vivir la mejor experiencia de belleza.",
   "authError": "Error durante la autenticación",
   "googleSignInCancelled": "El inicio de sesión con Google fue cancelado o falló.",
   "googleSignInError": "Ocurrió un error al iniciar sesión con Google.",
-
   "or": "O",
   "loginWithGoogle": "Iniciar sesión con Google",
   "loginWithFacebook": "Iniciar sesión con Facebook",
-
   "forgotPassword": "¿Olvidaste tu contraseña?",
   "resetPasswordInstruction": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
   "sendResetLink": "Enviar enlace de restablecimiento",
   "passwordResetSent": "¡Correo de restablecimiento enviado!",
   "resetPasswordError": "No se pudo enviar el correo de restablecimiento",
   "emailRequired": "Por favor ingresa tu correo electrónico.",
-
   "requiredField": "Este campo es obligatorio.",
   "invalidEmail": "Ingresa un correo válido.",
   "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
@@ -59,15 +50,12 @@
   "userNotFound": "No encontramos una cuenta con ese correo.",
   "emailInUse": "Este correo ya está en uso.",
   "networkError": "Error de red. Verifica tu conexión e intenta otra vez.",
-
   "whatClientsSay": "Lo que dicen nuestras clientas",
   "specialOffer": "Oferta Especial",
   "quickBooking": "Reserva Rápida",
-
   "servicesAndPrices": "Servicios y Precios",
   "contactUs": "Contáctanos",
   "location": "Ubicación",
-
   "bookAppointment": "Reservar una Cita",
   "selectDate": "Selecciona una Fecha",
   "selectStylist": "Selecciona una Estilista",
@@ -76,7 +64,6 @@
   "senar": "Señar",
   "bookingConfirmed": "✅ Cita reservada",
   "bookingIncomplete": "⚠️ Selecciona estilista y horario",
-
   "loyaltyPoints": "Puntos de Fidelidad",
   "points": "{count} puntos",
   "@points": {
@@ -84,9 +71,9 @@
       "count": {}
     }
   },
+  "meetOurStylists": "Conoce a Nuestras Estilistas",
   "myAppointments": "Mis Citas",
   "paymentMethods": "Métodos de Pago",
-
   "showPassword": "Mostrar contraseña",
   "hidePassword": "Ocultar contraseña",
   "featureComingSoon": "¡Esta función estará disponible pronto!"

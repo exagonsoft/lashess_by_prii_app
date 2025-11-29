@@ -1,4 +1,5 @@
 // lib/controllers/main_controller.dart
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lashess_by_prii_app/models/lashee_service.dart';
 import 'package:lashess_by_prii_app/repositories/services_repository.dart';
@@ -46,7 +47,9 @@ class MainController extends ChangeNotifier {
       styles = results[2] as List<Style>;
       services = results[3] as List<LashesService>;
     } catch (e) {
-      print("⚠️ Error loading data: $e");
+      if (kDebugMode) {
+        print("⚠️ Error loading data: $e");
+      }
     }
 
     isLoading = false;

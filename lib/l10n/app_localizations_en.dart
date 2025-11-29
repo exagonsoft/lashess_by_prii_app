@@ -209,6 +209,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get meetOurStylists => 'Meet Our Stylists';
+
+  @override
   String get myAppointments => 'My Appointments';
 
   @override

@@ -209,6 +209,9 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get meetOurStylists => 'Conoce a Nuestras Estilistas';
+
+  @override
   String get myAppointments => 'Mis Citas';
 
   @override

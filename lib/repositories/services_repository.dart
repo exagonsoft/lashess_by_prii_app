@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:lashess_by_prii_app/constants/api_config.dart';
 import 'package:lashess_by_prii_app/models/lashee_service.dart';
 
 class ServicesRepository {
   final String apiUrl;
   List<LashesService> _cache = [];
 
-  ServicesRepository({this.apiUrl = 'https://www.lashees-by-prii.exagon-soft.com/api/v1/public'});
+  ServicesRepository({String? apiUrl}) : apiUrl = apiUrl ?? '$baseApi/v1/public';
 
   Future<List<LashesService>> getServices({bool forceRefresh = false}) async {
     if (!forceRefresh && _cache.isNotEmpty) {
